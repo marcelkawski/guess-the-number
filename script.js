@@ -8,6 +8,10 @@ const defaultBackgroundColor =
 const defaultNumberBoxValue = document.querySelector('.number').textContent;
 const defaultNumberBoxWidth = document.querySelector('.number').style.width;
 
+const displayMessage = function (message) {
+  document.querySelector('.message').textContent = message;
+};
+
 const initializeGame = function () {
   const drawnNumber = drawNumber();
   const score = initialScore;
@@ -21,7 +25,7 @@ const resetGame = function () {
 
   document.querySelector('.score').textContent = score;
 
-  document.querySelector('.message').textContent = defaultMessage;
+  displayMessage(defaultMessage);
   document.querySelector('body').style.backgroundColor = defaultBackgroundColor;
   document.querySelector('.number').style.width = defaultNumberBoxWidth;
   document.querySelector('.guess').value = '';
@@ -30,14 +34,13 @@ const resetGame = function () {
 document.querySelector('.check').addEventListener('click', function () {
   const guess = document.querySelector('.guess').value;
   // no input provided
-  if (guess === '')
-    document.querySelector('.message').textContent = 'No number ☹️';
+  if (guess === '') displayMessage('No number ☹️');
   // number input (It is not possible to input anything else in an input element marked as type="number" in HTML code.)
   else {
     const guessNum = Number(guess);
     // guessed
     if (guessNum === drawnNumber) {
-      document.querySelector('.message').textContent = 'Correct number! 🥇';
+      displayMessage('Correct number! 🥇');
       document.querySelector('body').style.backgroundColor = '#60b347';
       document.querySelector('.number').textContent = drawnNumber;
       document.querySelector('.number').style.width = '30rem';
@@ -50,15 +53,10 @@ document.querySelector('.check').addEventListener('click', function () {
       score--;
       document.querySelector('.score').textContent = score;
       // lost
-      if (score === 0)
-        document.querySelector('.message').textContent = 'You lost ☠️';
+      if (score === 0) displayMessage('You lost ☠️');
       // not guessed
-      else {
-        if (guessNum > drawnNumber)
-          document.querySelector('.message').textContent = 'Too high ⏬';
-        else if (guessNum < drawnNumber)
-          document.querySelector('.message').textContent = 'Too low ⏫';
-      }
+      else
+        displayMessage(guessNum > drawnNumber ? 'Too high ⏬' : 'Too low ⏫');
     }
   }
 });
@@ -68,9 +66,5 @@ document.querySelector('.again').addEventListener('click', function () {
 });
 
 const drawNumber = () => Math.trunc(Math.random() * 20) + 1;
-
-// let drawnNumber = drawNumber();
-// // document.querySelector('.number').textContent = drawnNumber;
-// let score = initialScore;
 
 let [drawnNumber, score] = initializeGame();
