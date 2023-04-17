@@ -1,6 +1,7 @@
 'use strict';
 
 const initialScore = 10;
+let highScore = 0;
 const defaultMessage = document.querySelector('.message').textContent;
 const defaultBackgroundColor =
   document.querySelector('body').style.backgroundColor;
@@ -41,6 +42,10 @@ document.querySelector('.check').addEventListener('click', function () {
       document.querySelector('.number').textContent = drawnNumber;
       document.querySelector('.number').style.width = '30rem';
       document.querySelector('.score').textContent = score;
+      if (score > highScore) {
+        highScore = score;
+        document.querySelector('.highscore').textContent = highScore;
+      }
     } else {
       score--;
       document.querySelector('.score').textContent = score;
